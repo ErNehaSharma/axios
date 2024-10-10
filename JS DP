@@ -1,0 +1,74 @@
+Dynamic Programming (DP) Explained:
+Dynamic Programming is a method used to solve problems by breaking them down into overlapping subproblems and storing their solutions to avoid recomputation. It's especially useful for optimization problems like finding the shortest path, maximizing profit, or solving recursive relationships (e.g., Fibonacci numbers, Knapsack problem).
+
+Key Concepts:
+Memoization: Storing results of subproblems for later reuse.
+Tabulation: Iteratively filling a table to solve the problem bottom-up.
+Optimal Substructure: The optimal solution to the problem relies on optimal solutions to its subproblems.
+Example: Solving Fibonacci with DP (JavaScript)
+Here's a more detailed breakdown of solving the Fibonacci problem with Dynamic Programming:
+
+Problem:
+The Fibonacci sequence is defined as:
+
+F(0) = 0
+F(1) = 1
+F(n) = F(n-1) + F(n-2) for n > 1
+The task is to calculate F(n) for any n efficiently.
+
+Naive Recursive Approach (Inefficient):
+function naiveFibonacci(n) {
+    if (n <= 1) {
+        return n;
+    }
+    return naiveFibonacci(n - 1) + naiveFibonacci(n - 2);
+}
+Time complexity: O(2^n) due to repeated recalculation of subproblems.
+Space complexity: O(n) because of the recursion stack.
+Optimized Dynamic Programming Solution:
+Using DP, we avoid recalculating the same subproblems by storing previously computed Fibonacci values in an array (dp array).
+function fibonacci(n) {
+    // Initialize the base cases
+    let dp = [0, 1];
+    
+    // Fill the dp array iteratively
+    for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    
+    // Return the nth Fibonacci number
+    return dp[n];
+}
+
+console.log(fibonacci(10));  // Output: 55
+Explanation:
+Initialization: dp[0] = 0, dp[1] = 1 are the base cases for Fibonacci.
+Iterative Calculation: We loop from 2 to n, filling in the table by using the relation dp[i] = dp[i - 1] + dp[i - 2].
+Return Result: After filling in the table, dp[n] will contain the Fibonacci number for n.
+Time and Space Complexity:
+Time Complexity: O(n) because we compute each Fibonacci number once and store it.
+Space Complexity: O(n) due to the array storing the intermediate results.
+Space Optimization:
+We can further optimize space to O(1) by only keeping track of the last two Fibonacci numbers:
+function fibonacciOptimized(n) {
+    if (n <= 1) return n;
+    
+    let a = 0, b = 1;
+    for (let i = 2; i <= n; i++) {
+        let temp = a + b;
+        a = b;
+        b = temp;
+    }
+    return b;
+}
+
+console.log(fibonacciOptimized(10));  // Output: 55
+In this solution:
+
+Instead of storing the entire array, we store only the last two values (a and b), reducing space complexity to O(1).
+Applications of Dynamic Programming:
+Knapsack Problem: Maximize the value of items in a knapsack with a weight limit.
+Shortest Path: Find the shortest path in a weighted graph (e.g., Bellman-Ford algorithm).
+Longest Common Subsequence: Find the longest subsequence common to two sequences.
+Coin Change Problem: Minimize the number of coins to make a specific amount.
+Dynamic programming can be applied whenever a problem can be broken down into overlapping subproblems with optimal substructure.
